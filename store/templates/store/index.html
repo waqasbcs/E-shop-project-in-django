@@ -1,16 +1,42 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>E-SHOP</title>
-</head>
-<body>
-    {% for product in products %}
-    {{product.name}}
+{% extends 'store/base.html' %}
+ {% block content %}
 
-    {% endfor %}
-    
-</body>
-</html>
+ <div class="continer-fluid mt-3">
+ 
+  <div class="row">
+
+
+    <!--filter-->
+    <div class="col-lg-3 mx-auto">
+      <div class="list-group">
+        {% for category in categories %}
+        <a href="#"class="list-group-item list-group-item-action">{{category.name}}</a> 
+        {% endfor %}  
+    </div>
+  </div>
+
+
+    <!--allproducts-->
+    <div id='products'class="col-lg-9 mx-auto">
+      <div class="row mx-auto">
+        {% for product in products %}
+        <div class="card mx-auto mb-3"  style="width: 18rem;">
+          <img class="card-img-top" src="{{product.image.url}}" alt="Card image cap">
+          <div class="card-body">
+            <h5 class="card-title">{{product.name}}</h5>
+            <h5 class="card-text"><b>{{product.price}}</b></h5>
+            <a href="#"class="btn btn-light boarder btn-sm">Add to Card</a>
+          </div>
+        </div>
+            {% endfor %}
+          </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+  
+ 
+ 
+ 
+ {% endblock content %}
