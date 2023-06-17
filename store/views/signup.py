@@ -1,38 +1,18 @@
 from django.shortcuts import render,redirect
-from django.http import HttpResponse
-from . models.product import Product
-from . models.category import Category
-from . models.customer import Customer
+from store .models.customer import Customer
 from django import http
 from django.contrib import messages
-from .models import Customer
+from django .views import View
 
 
 
 
 
-# Create your views here.
-
-#index 
-def index(request):
-    products = None
-    categories = Category.get_all_categories()
-    categoryID = request.GET.get('category')
-    if categoryID:
-     products = Product.get_all_products_by_categoryid(categoryID)
-    else:
-       products = Product.get_all_products();
-    data = {}
-    data['products'] = products
-    data['categories'] = categories
-    return render(request, 'store/index.html',data)
-
-#signup
- 
-def signup(request):
-    if request.method == 'GET':
+class Signup(View):
+    def get(self, request):
         return render(request, 'store/signup.html')
-    else:
+       
+    def post(self, request):
         postData = request.POST
         first_name = request.POST.get('firstname')
         last_name = request.POST.get('lastname')
@@ -84,31 +64,4 @@ def signup(request):
                 'error': error_message,
                 'values': value
             }
-    return render(request, 'store/signup.html',data)
-
-
-#login 
-
-def login(request):
-    if request.method == 'GET':
-     return render(request, 'store/login.html')
-    else:
-        email = request.POST.get('email')
-        password = request.POST.get('password')
-        customer = Customer.get_customer_by_email(email=email)
-        error_message = None
-        if customer:
-            flag = check_password = (password)
-            if flag:
-                messages.success(request,'you have been logged in successfully!!!')
-                return redirect('index')
-            else:
-              error_message = 'Email or Password invalid !!!'
-                
-        else:
-            error_message = 'Email or Password invalid !!!'
-            return render(request, 'store/login.html',{'error':error_message})
-        
-        
-        
-
+        return render(request, 'store/signup.html',data)
