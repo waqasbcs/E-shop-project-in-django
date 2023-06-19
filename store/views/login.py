@@ -1,15 +1,15 @@
-from django.shortcuts import render,redirect
-from store .models.customer import Customer
+from django.shortcuts import render, redirect
+from store.models.customer import Customer
 from django import http
 from django.contrib import messages
-from django .views import View
-
+from django.views import View
+from django.contrib.auth.hashers import check_password
 
 class Login(View):
-     def get(self, request):
-      return render(request, 'store/login.html')
-         
-     def post(self, request):
+    def get(self, request):
+        return render(request, 'store/login.html')
+    
+    def post(self, request):
         email = request.POST.get('email')
         password = request.POST.get('password')
         customer = Customer.get_customer_by_email(email=email)
@@ -17,6 +17,8 @@ class Login(View):
         if customer:
             flag = check_password = (password)
             if flag:
+                request.session['customer_id'] = customer.id
+                request.session['email'] = customer.email
                 messages.success(request,'you have been logged in successfully!!!')
                 return redirect('index')
             else:
