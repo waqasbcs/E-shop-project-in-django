@@ -18,43 +18,58 @@
 
     <nav class="navbar navbar-expand-lg bg-body-tertiary">
         <div class="container-fluid">
-          <a class="navbar-brand" href="#">E-Shop</a>
+          <a class="navbar-brand" href="/">E-Shop</a>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
           </button>
           <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto ">
               <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="#">Store</a>
+                <a class="nav-link active" aria-current="page" href="/">Store</a>
               </li>
             </ul>
 
-
+            {% comment %} {% if request.session.customer %}
             <ul class="navbar-nav my-2 my-lg-0">
-                <li class="nav-item">
-                  <a class="nav-link active" aria-current="page" href="#">logout</a>
-                </li>
-
-                <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="/signup">signup</a>
-                  </li>
-
-                  <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="/login">login</a>
-                  </li>
-
-                  <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                      Profile
-                    </a>
-                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                      <a class="dropdown-item" href="#">Action</a>
-                      <a class="dropdown-item" href="#">Another action</a>
-                      <div class="dropdown-divider"></div>
-                      <a class="dropdown-item" href="#">Something else here</a>
-                    </div>
-                  </li>
-                  
+              <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="#">Logout</a>
+              </li>
+            </ul>
+          {% else %}
+            <ul class="navbar-nav my-2 my-lg-0">
+              <li class="nav-item {% if request.path == '/signup' %}active btn btn-success{% endif %}">
+                <a class="nav-link" href="/signup">Signup</a>
+              </li>
+              <li class="nav-item {% if request.path == '/login' %}active btn btn-success{% endif %}">
+                <a class="nav-link" href="/login">Login</a>
+              </li>
+            </ul>
+          {% endif %} {% endcomment %}
+          <ul class=" navbar-nav my-2 my-lg-0">
+            <li class="nav-item ">
+              <a class="nav-link" href="/cart">Cart 
+                <span class="badge badge-info">{{request.session.cart.keys|length}}</span>
+                <span class="sr-only">(current)</span></a>
+            </li>
+            {% if request.session.customer %}
+            
+            <li class="nav-item ">
+              <a class="nav-link" href="/orders">Orders<span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item ">
+              <a class="nav-link" href="/logout">Logout<span class="sr-only">(current)</span></a>
+            </li>
+            {% else %}
+           
+            <li class="nav-item ">
+              <a class="nav-link" href="/signup">Signup<span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item ">
+              <a class="nav-link" href="/login">Login<span class="sr-only">(current)</span></a>
+            </li>
+            {% endif %}
+          
+        
               </ul>
           </div>
         </div>

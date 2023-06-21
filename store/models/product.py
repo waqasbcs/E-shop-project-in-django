@@ -11,12 +11,17 @@ class Product(models.Model):
     image = models.ImageField(upload_to='upload/products/')
     
     
+       
+    @staticmethod
+    def get_products_by_id(ids):
+        return Product.objects.filter(id__in =ids)
+
+      
     @staticmethod
     def get_all_products(): 
         return Product.objects.all()
     
-    
-      
+         
     @staticmethod
     def get_all_products_by_categoryid(category_id): 
         if category_id:
